@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
         } while (!validMaxSecret(maxSN));
         
         secretNumber = rand()%maxSN+1;
-        printf("SN: %d",secretNumber);
+        // printf("SN: %d",secretNumber);
         
         do {
             printf("\nChoose maximum tries : ");
