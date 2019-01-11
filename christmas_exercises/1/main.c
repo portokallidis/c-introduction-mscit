@@ -3,39 +3,25 @@
 
 int main(int argc, char *argv[]) {
     
-    int data[1000][3];
-    int exitOp = 0;
-    int i = 0;
     
-    int printfArray(int my_array[2][3]){
-        int i,j;
-        for(i = 0; i < 2; i++) {
-            for(j = 0; j < 3; j++) {
-                printf("%d ", my_array[i][j]);
-            }
-            printf("\n");
-        } 
-      return 0;
-    }
+    int exitOp = 0;
+    int i,j = 0;
+    int sex,age;
+    float mark;
+    int count[2][3] = { {0,0,0},{0,0,0} };
+    float avg[2][3] = { {0,0,0},{0,0,0} };
+    int over8[2][3] = { {0,0,0},{0,0,0} };
+    int less4[2][3] = { {0,0,0},{0,0,0} };
+    
 
-    int printfArrayFloat(double my_array[2][3]){
-        int i,j;
-        for(i = 0; i < 2; i++) {
-            for(j = 0; j < 3; j++) {
-                printf("%f ", my_array[i][j]);
-            }
-            printf("\n");
-        } 
-      return 0;
-    }
-
+    // validators
     int validSex (int val){
         return (val==1 || val==2);
     } 
     int validAge (int val){
         return (val==1 || val==2 || val==3);
     } 
-    int validMark (int val){
+    int validMark (float val){
         return (val>=0 && val<=10);
     } 
     int validExit (int val){
@@ -50,12 +36,12 @@ int main(int argc, char *argv[]) {
             printf("1. Men \n");
             printf("2. Women \n");
             printf("Type your option : ");
-            scanf("%d",&data[i][0]);
+            scanf("%d",&sex);
             
-            if (!validSex(data[i][0])) {
+            if (!validSex(sex)) {
                 printf("\nWrong choice!\n");
             }
-        } while (!validSex(data[i][0]));
+        } while (!validSex(sex));
         
         do {
             printf("\nChoose Age\n");
@@ -63,22 +49,22 @@ int main(int argc, char *argv[]) {
             printf("2. From 31 to 55\n");
             printf("3. Greater or equal to 56\n");
             printf("Type your option : ");
-            scanf("%d",&data[i][1]);
+            scanf("%d",&age);
             
-            if(!validAge(data[i][1])) {
+            if(!validAge(age)) {
                 printf("\nWrong choice!\n");
             }
-        } while (!validAge(data[i][1]));
+        } while (!validAge(age));
         
         do {
             printf("\nMark the product\n");
             printf("Type the consumer mark : ");
-            scanf("%d",&data[i][2]);
+            scanf("%f",&mark);
             
-            if(!validMark(data[i][2])){
+            if(!validMark(mark)){
                 printf("\nWrong mark! Mark must be (0-10)\n");
             }
-        } while (!validMark(data[i][2]));
+        } while (!validMark(mark));
         
         do {
             printf("\n\n\n");
@@ -92,63 +78,68 @@ int main(int argc, char *argv[]) {
             }
         } while (!validExit(exitOp));
         
+        // do things
+        count[sex-1][age-1]++;
+        avg[sex-1][age-1]+=mark;
+        
+        // count over than 8
+        if(mark>8) {
+            over8[sex-1][age-1]++;
+        }
+        
+        // count less than 4
+        if(mark<4) {
+            less4[sex-1][age-1]++;
+        }
+        
+        // debug
+        // printf("[%d][%d] -> %f",sex,age,mark);
         
         // prepare for next entry
         i++;
         
     } while (exitOp!=2);
         
-        int j;
-        int count[2][3];
-        double mean[2][3];
         
-        int over8[2][3];
-        int less4[2][3];
         
-        int curSex;
-        int currentAge;
-        // printf("Records: \n");
-        
-        // calculate sums and counts
-        for( j = 0; j < i; j++ ){
-            
-            count[data[j][0]-1][data[j][1]-1]++;
-            mean[data[j][0]-1][data[j][1]-1] += (double)data[j][2];
-            
-            // count over than 8
-            if(data[j][2]>8) {
-                over8[data[j][0]-1][data[j][1]-1]++;
+        // calculate avg
+        for( i = 0; i < 2; i++ ){
+            for( j = 0; j < 3; j++ ){
+                if(count[i][j]>0) {
+                    avg[i][j]/=count[i][j];
+                }
             }
-            
-            // count less than 4
-            if(data[j][2]<4) {
-                less4[data[j][0]-1][data[j][1]-1]++;
-            }
-            
-            // printf("%d. Sex: %d, Age: %d, Mark: %d\n", j+1, data[j][0],data[j][1],data[j][2]);
-                        
+        }        
+        
+        // display average
+        printf("\n\nMen by age");
+        for( j = 0; j < 3; j++ ){
+            printf("\nAverage for %d group is %f",j+1,avg[0][j] );
+        }
+        printf("\n\nWomen by age");
+        for( j = 0; j < 3; j++ ){
+            printf("\nAverage for %d group is %f",j+1,avg[1][j] );
         }
         
-        // calculate mean
-        for( j = 0; j < i; j++ ){
-            mean[data[j][0]-1][data[j][1]-1] /= count[data[j][0]-1][data[j][1]-1];
+        // display greater than 8
+        printf("\n\nMen with a mark greater than 8");
+        for( j = 0; j < 3; j++ ){
+            printf("\nfor %d group is %d",j+1,over8[0][j] );
+        }
+        printf("\n\nWomen with a mark greater than 8");
+        for( j = 0; j < 3; j++ ){
+            printf("\nfor %d group is %d",j+1,over8[1][j] );
         }
         
-        printf("\n\nCounts (Men,Women) (age groups 1,2,3)\n");
-        printfArray(count);
-        
-        printf("\n\nMean (Men,Women) (age groups 1,2,3)\n");
-        printfArrayFloat(mean);
-        
-        printf("\n\nover8 (Men,Women) (age groups 1,2,3)\n");
-        printfArray(over8);
-        
-        printf("\n\nless4 (Men,Women) (age groups 1,2,3)\n");
-        printfArray(less4);
-        
-        
- 
-        
+        // display less than 4
+        printf("\n\nMen with a mark less than 4");
+        for( j = 0; j < 3; j++ ){
+            printf("\nfor %d group is %d",j+1,less4[0][j] );
+        }
+        printf("\n\nWomen with a mark less than 4");
+        for( j = 0; j < 3; j++ ){
+            printf("\nfor %d group is %d",j+1,less4[1][j] );
+        }
         
     
 	return 0;
