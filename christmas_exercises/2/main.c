@@ -77,7 +77,6 @@ int main(int argc, char *argv[]) {
             printf("\n\n========================");
         }
         
-        playAgain = 0;
         do {
             printf("\n\n1. Play again");
             printf("\n2. Exit");
