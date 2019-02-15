@@ -19,7 +19,7 @@ int main(int argc, char *argv[]) {
         while (e != 0) { result *= b; --e; }
         return result;
     }
-    // dec to binary
+    // dec to binary char[]
     void toBin(int value, int bitsCount, char* output) {
         int i;
         output[bitsCount] = '\0';

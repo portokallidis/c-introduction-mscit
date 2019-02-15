@@ -9,11 +9,11 @@ int main(int argc, char *argv[]) {
     char cur[4];
     char result[500] = "Function is: ";
     
+    // dec to binary char[]
     void toBin(int value, int bitsCount, char* output) {
         int i;
         output[bitsCount] = '\0';
-        for (i = bitsCount - 1; i >= 0; --i, value >>= 1)
-        {
+        for (i = bitsCount - 1; i >= 0; --i, value >>= 1) {
             output[i] = (value & 1) + '0';
         }
     }

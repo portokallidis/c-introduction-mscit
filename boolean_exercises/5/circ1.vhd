@@ -1,0 +1,5 @@
+ENTITY fun1 IS PORT(A, B, C: IN BIT; F: OUT BIT); END fun1;
+ARCHITECTURE df1 OF fun1 IS
+BEGIN
+ F <= A AND B OR C;
+END df1;

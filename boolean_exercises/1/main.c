@@ -9,14 +9,11 @@ int main(int argc, char *argv[]) {
     char comb[4];
     int i;
     
-    
+    // power function
     int pow(int b, int e) {
         int result=1;
         int power = e;
-        while (e != 0) {
-            result *= b;
-            --e;
-        }
+        while (e != 0) { result *= b; --e; }
         return result;
     }
     
